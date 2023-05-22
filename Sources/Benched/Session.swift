@@ -151,6 +151,22 @@ extension BenchmarkSession {
         endMeasurement()
     }
     
+    /// Start a benchmark.
+    public func benchmark<T>(phaseName: String, _ function: () throws -> T) rethrows -> T {
+        startMeasurement(phaseName: phaseName)
+        let result = try function()
+        endMeasurement()
+        return result
+    }
+    
+    /// Start a benchmark.
+    public func benchmark<T>(phaseName: String, _ function: () async throws -> T) async rethrows -> T {
+        startMeasurement(phaseName: phaseName)
+        let result = try await function()
+        endMeasurement()
+        return result
+    }
+    
     /// Start a measurement.
     public func startMeasurement(phaseName: String) {
         activeMeasurements.append((phaseName, CFAbsoluteTimeGetCurrent()))
