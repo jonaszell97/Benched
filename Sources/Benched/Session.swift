@@ -138,9 +138,16 @@ extension BenchmarkSession {
     }
     
     /// Start a benchmark.
-    public func benchmark(phaseName: String, _ function: () -> Void) {
+    public func benchmark(phaseName: String, _ function: () throws -> Void) rethrows {
         startMeasurement(phaseName: phaseName)
-        function()
+        try function()
+        endMeasurement()
+    }
+    
+    /// Start a benchmark.
+    public func benchmark(phaseName: String, _ function: () async throws -> Void) async rethrows {
+        startMeasurement(phaseName: phaseName)
+        try await function()
         endMeasurement()
     }
     
