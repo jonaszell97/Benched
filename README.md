@@ -1,3 +1,3 @@
 # Benched
 
-A description of this package.
+Benched is a work-in-progress benchmarking library for Swift apps.

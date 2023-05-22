@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "toolbox",
+      "kind" : "localSourceControl",
+      "location" : "/Users/jonaszell/Developer/Toolbox",
+      "state" : {
+        "branch" : "dev",
+        "revision" : "147c9b5c574d15f0f3c238551c5e444d3cd84d62"
+      }
+    }
+  ],
+  "version" : 2
+}
