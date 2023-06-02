@@ -1,6 +1,13 @@
 
+import os
 import Foundation
 import Toolbox
+
+#if DEBUG
+typealias Logger = Toolbox.Logger
+#else
+typealias Logger = os.Logger
+#endif
 
 extension Log {
     static let benched = Logger(subsystem: "com.jonaszell.Benched", category: "BenchmarkSession")
