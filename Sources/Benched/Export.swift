@@ -7,10 +7,6 @@ extension BenchmarkSession {
     public func dumpResults() {
         print("--- BENCHMARKS ---")
         
-        let phases = phases.map { ($0.key, $0.value) }.sorted {
-            $0.1.count > $1.1.count
-        }
-        
         let maxPhaseLength = phases.max {
             $0.0.count < $1.0.count
         }!.0.count
@@ -19,7 +15,8 @@ extension BenchmarkSession {
             $0.1.count < $1.1.count
         }!.1.count).count
         
-        for (phase, data) in phases {
+        for phaseName in sortedPhases {
+            let data = phases[phaseName]!
             let times = data.count
             let total = data.reduce(0) { $0 + $1 }
             let avg = total / Double(times)
@@ -29,7 +26,7 @@ extension BenchmarkSession {
             let lastHundredTotal = lastHundred.reduce(0) { $0 + $1 }
             let lastHundredAvg = lastHundredTotal / Double(lastHundred.count)
             
-            let col1 = "\(phase)".padding(toLength: maxPhaseLength, withPad: " ", startingAt: 0)
+            let col1 = "\(phaseName)".padding(toLength: maxPhaseLength, withPad: " ", startingAt: 0)
             let col2 = FormatToolbox.format(times).padding(toLength: maxTimes, withPad: " ", startingAt: 0)
             let col3 = FormatToolbox.format(total, decimalPlaces: 3, minDecimalPlaces: 3)
             let col4 = FormatToolbox.format(avg*1000, decimalPlaces: 3, minDecimalPlaces: 3)

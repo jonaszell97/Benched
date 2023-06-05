@@ -17,6 +17,9 @@ public final class BenchmarkSession {
     /// The name of this benchmarking session.
     public let name: String
     
+    /// The sorting order of the phases.
+    var sortedPhases: [String] = []
+    
     /// Names of specific functions along with the amount of times they've been done and the total duration.
     var phases: [String: [CFAbsoluteTime]] = [:]
     
@@ -70,6 +73,7 @@ extension BenchmarkSession {
         self.currentFrameStart = CFAbsoluteTimeGetCurrent()
         self.currentFrameCount = frameCount
         self.phases.removeAll()
+        self.sortedPhases.removeAll()
         self.activeMeasurements.removeAll()
         self.metrics.removeAll()
     }
@@ -177,6 +181,10 @@ extension BenchmarkSession {
     /// Start a measurement.
     public func startMeasurement(phaseName: String) {
         activeMeasurements.append((phaseName, CFAbsoluteTimeGetCurrent()))
+        
+        if sortedPhases.firstIndex(of: phaseName) == nil {
+            self.sortedPhases.append(phaseName)
+        }
     }
     
     /// End a measurement.
@@ -204,6 +212,7 @@ extension BenchmarkSession {
             }
             else {
                 self.phases[phaseName] = data
+                self.sortedPhases.append(phaseName)
             }
         }
     }
